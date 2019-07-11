@@ -13,6 +13,8 @@ module.exports = (bot, db) => {
 
             db.users.findOne({ user_id: member.id }, (err, user) => {
                 if (err) return console.log(err);
+                else if (!user) return;
+
                 ctx.kickChatMember(member.id).catch(() => {});
 
                 let message = `${mention(member)} is globally banned.`;
