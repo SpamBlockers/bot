@@ -1,0 +1,16 @@
+{
+    "name": "spamblockersbot",
+    "version": "1.0.0",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js"
+    },
+    "author": "YouTwitFace <contact@lungers.com>",
+    "license": "GPL-3.0",
+    "dependencies": {
+        "@youtwitface/escape-html": "^1.0.0",
+        "dotenv": "^8.0.0",
+        "nedb": "^1.8.0",
+        "telegraf": "^3.30.1"
+    }
+}
