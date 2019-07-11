@@ -52,7 +52,7 @@ module.exports = (bot, db) => {
                     ctx.reply(`User has been banned.`);
 
                     const tgUser = await bot.telegram.getChat(id);
-                    const adminMention = mention(from, true);
+                    const adminMention = mention(ctx.from, true);
                     const userMention = mention(tgUser, true);
                     let logMessage = `<b>Type:</b> Ban\n<b>Admin:</b> ${adminMention}\n<b>User:</b> ${userMention}`;
 
