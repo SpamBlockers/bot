@@ -44,7 +44,7 @@ module.exports = (bot, db) => {
                     ctx.reply(`User has been unbanned.`);
 
                     const tgUser = await bot.telegram.getChat(id);
-                    const adminMention = mention(from, true);
+                    const adminMention = mention(ctx.from, true);
                     const userMention = mention(tgUser, true);
                     let logMessage = `<b>Type:</b> Unban\n<b>Admin:</b> ${adminMention}\n<b>User:</b> ${userMention}`;
 
