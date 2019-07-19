@@ -1,6 +1,5 @@
 const escapeHtml = require(`@youtwitface/escape-html`);
 const parseText = require('../middleware/parseText');
-const mention = require('../middleware/mention');
 
 module.exports = (bot, db) => {
     bot.command(`stat`, parseText, ctx => {
@@ -21,7 +20,7 @@ module.exports = (bot, db) => {
             let replyText = `${id} is banned.`;
 
             if (user.reason) {
-                replyText += `\nReason: ${escapeHtml(user.reason)}`;
+                replyText += `\nReason: ${user.reason}`;
             }
 
             ctx.reply(replyText);
