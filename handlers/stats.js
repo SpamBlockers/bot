@@ -1,5 +1,8 @@
 const parseText = require(`../middleware/parseText`);
 
+const formatNumber = number =>
+    number.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, `$1,`);
+
 module.exports = (bot, db) => {
     bot.command(`stat`, parseText, ctx => {
         const { id } = ctx.text;
@@ -42,7 +45,7 @@ module.exports = (bot, db) => {
                 }
 
                 ctx.reply(
-                    `I am currently in ${chats} groups and have globally banned ${users} users.`
+                    `I am currently in ${formatNumber(chats)} groups and have globally banned ${formatNumber(users)} users.`
                 );
             });
         });
