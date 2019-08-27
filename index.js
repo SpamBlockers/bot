@@ -13,7 +13,7 @@ const db = {
             if (err) throw err;
 
             db.chats.ensureIndex(
-                { fieldName: 'chat_id', unique: true },
+                { fieldName: `chat_id`, unique: true },
                 err => {
                     if (err) throw err;
                 }
@@ -27,14 +27,14 @@ const db = {
             if (err) throw err;
 
             db.users.ensureIndex(
-                { fieldName: 'user_id', unique: true },
+                { fieldName: `user_id`, unique: true },
                 err => {
                     if (err) throw err;
                 }
             );
         },
     }),
-    admins: require('./admins.json').map(admin => Number(admin)),
+    admins: require(`./admins.json`).map(admin => Number(admin)),
 };
 
 require(`./handlers`)(bot, db);

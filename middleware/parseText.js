@@ -12,7 +12,7 @@ module.exports = (ctx, next) => {
 
     ctx.text = {
         id: Number(id) || null,
-        reason: reason ? reason.trim() : null
+        reason: reason ? reason.trim() : null,
     };
 
     next(ctx);

@@ -1,6 +1,6 @@
 const escapeHtml = require(`@youtwitface/escape-html`);
-const parseText = require('../middleware/parseText');
-const mention = require('../middleware/mention');
+const parseText = require(`../middleware/parseText`);
+const mention = require(`../middleware/mention`);
 
 const { LOG_CHANNEL } = process.env;
 
@@ -19,9 +19,9 @@ module.exports = (bot, db) => {
         db.users.findOne({ user_id: id }, (err, user) => {
             if (err) {
                 console.log(err);
-                return ctx.repy('There was an error.');
+                return ctx.repy(`There was an error.`);
             } else if (user) {
-                return ctx.reply('That user is already banned.');
+                return ctx.reply(`That user is already banned.`);
             }
 
             const insertedUser = {
@@ -34,13 +34,13 @@ module.exports = (bot, db) => {
             db.users.insert(insertedUser, err => {
                 if (err) {
                     console.log(err);
-                    return ctx.reply('There was an error.');
+                    return ctx.reply(`There was an error.`);
                 }
 
                 db.chats.find({}, async (err, chats) => {
                     if (err) {
                         console.log(err);
-                        return ctx.reply('There was an error.');
+                        return ctx.reply(`There was an error.`);
                     }
 
                     chats.forEach(chat => {

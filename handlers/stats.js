@@ -1,5 +1,4 @@
-const escapeHtml = require(`@youtwitface/escape-html`);
-const parseText = require('../middleware/parseText');
+const parseText = require(`../middleware/parseText`);
 
 module.exports = (bot, db) => {
     bot.command(`stat`, parseText, ctx => {
@@ -12,7 +11,7 @@ module.exports = (bot, db) => {
         db.users.findOne({ user_id: id }, (err, user) => {
             if (err) {
                 console.log(err);
-                return ctx.repy('There was an error.');
+                return ctx.repy(`There was an error.`);
             } else if (!user) {
                 return ctx.reply(`${id} is not banned.`);
             }
@@ -33,13 +32,13 @@ module.exports = (bot, db) => {
         db.chats.count({}, (err, chats) => {
             if (err) {
                 console.log(err);
-                return ctx.repy('There was an error.');
+                return ctx.repy(`There was an error.`);
             }
 
             db.users.count({}, (err, users) => {
                 if (err) {
                     console.log(err);
-                    return ctx.repy('There was an error.');
+                    return ctx.repy(`There was an error.`);
                 }
 
                 ctx.reply(

@@ -1,5 +1,5 @@
-const parseText = require('../middleware/parseText');
-const mention = require('../middleware/mention');
+const parseText = require(`../middleware/parseText`);
+const mention = require(`../middleware/mention`);
 
 const { LOG_CHANNEL } = process.env;
 
@@ -18,7 +18,7 @@ module.exports = (bot, db) => {
         db.users.findOne({ user_id: id }, (err, user) => {
             if (err) {
                 console.log(err);
-                return ctx.repy('There was an error.');
+                return ctx.repy(`There was an error.`);
             } else if (!user) {
                 return ctx.reply(`That user isn't banned.`);
             }
@@ -26,13 +26,13 @@ module.exports = (bot, db) => {
             db.users.remove({ user_id: id }, err => {
                 if (err) {
                     console.log(err);
-                    return ctx.reply('There was an error.');
+                    return ctx.reply(`There was an error.`);
                 }
 
                 db.chats.find({}, async (err, chats) => {
                     if (err) {
                         console.log(err);
-                        return ctx.reply('There was an error.');
+                        return ctx.reply(`There was an error.`);
                     }
 
                     chats.forEach(chat => {
@@ -46,7 +46,7 @@ module.exports = (bot, db) => {
                     const tgUser = await bot.telegram.getChat(id);
                     const adminMention = mention(ctx.from, true);
                     const userMention = mention(tgUser, true);
-                    let logMessage = `<b>Type:</b> Unban\n<b>Admin:</b> ${adminMention}\n<b>User:</b> ${userMention}`;
+                    const logMessage = `<b>Type:</b> Unban\n<b>Admin:</b> ${adminMention}\n<b>User:</b> ${userMention}`;
 
                     bot.telegram.sendMessage(LOG_CHANNEL, logMessage, {
                         parse_mode: `html`,

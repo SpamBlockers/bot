@@ -1,5 +1,5 @@
 const escapeHtml = require(`@youtwitface/escape-html`);
-const mention = require('../middleware/mention');
+const mention = require(`../middleware/mention`);
 
 module.exports = (bot, db) => {
     bot.on(`new_chat_members`, ctx => {
