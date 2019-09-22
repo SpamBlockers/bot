@@ -14,6 +14,8 @@ module.exports = (bot, db) => {
             return ctx.reply(`That id doesn't seem valid.`);
         } else if (db.admins.includes(id)) {
             return ctx.reply(`I can't ban an admin.`);
+        } else if (id === ctx.botInfo.id) {
+            return ctx.reply(`Why would I ban myself?`);
         }
 
         db.users.findOne({ user_id: id }, (err, user) => {
