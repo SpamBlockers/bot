@@ -5,7 +5,7 @@ const mention = require(`../middleware/mention`);
 const { LOG_CHANNEL } = process.env;
 
 module.exports = (bot, db) => {
-    bot.command([`gban`, `fban`], parseText, ctx => {
+    bot.command(`gban`, parseText, ctx => {
         if (!db.admins.includes(ctx.from.id)) return;
 
         const { id, reason } = ctx.text;
