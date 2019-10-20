@@ -1,4 +1,7 @@
+const escapeHtml = require(`@youtwitface/escape-html`);
 const parseText = require(`../middleware/parseText`);
+const mention = require(`../middleware/mention`);
+const createLogMessage = require(`../middleware/createLogMessage`);
 
 const formatNumber = number =>
     number.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, `$1,`);
@@ -8,24 +11,64 @@ module.exports = (bot, db) => {
         const { id } = ctx.text;
 
         if (!id) {
-            return ctx.reply(`That id doesn't seem valid.`);
+            return ctx.reply(
+                createLogMessage({
+                    header: `Error`,
+                    message: `That id doesn't seem valid`,
+                }),
+                { parse_mode: `html` }
+            );
         }
 
-        db.users.findOne({ user_id: id }, (err, user) => {
+        db.users.findOne({ user_id: id }, async (err, user) => {
             if (err) {
                 console.log(err);
-                return ctx.repy(`There was an error.`);
+                return ctx.repy(
+                    createLogMessage({
+                        header: `Error`,
+                        message: err.message,
+                    })
+                );
             } else if (!user) {
-                return ctx.reply(`${id} is not banned.`);
+                return ctx.reply(
+                    createLogMessage({
+                        header: `Info`,
+                        message: `${id} is not banned`,
+                    }),
+                    { parse_mode: `html` }
+                );
             }
 
-            let replyText = `${id} is banned.`;
-
-            if (user.reason) {
-                replyText += `\nReason: ${user.reason}`;
+            let tgAdmin;
+            try {
+                tgAdmin = await bot.telegram.getChat(user.banned_by);
+            } catch (_) {
+                tgAdmin = null;
             }
 
-            ctx.reply(replyText);
+            let tgUser;
+            try {
+                tgUser = await bot.telegram.getChat(id);
+            } catch (_) {
+                tgUser = null;
+            }
+
+            const message = createLogMessage({
+                header: `Ban`,
+                admin: tgAdmin
+                    ? mention(tgAdmin, true)
+                    : `Unknown Admin (<code>${user.banned_by}</code>)`,
+                user: tgUser
+                    ? mention(tgUser, true)
+                    : `Unknown User (<code>${id}</code>)`,
+                reason: user.reason
+                    ? escapeHtml(user.reason)
+                    : `<i>No reason specified</i>`,
+            });
+
+            ctx.reply(message, {
+                parse_mode: `html`,
+            });
         });
     });
 
@@ -35,18 +78,36 @@ module.exports = (bot, db) => {
         db.chats.count({}, (err, chats) => {
             if (err) {
                 console.log(err);
-                return ctx.repy(`There was an error.`);
+                return ctx.repy(
+                    createLogMessage({
+                        header: `Error`,
+                        message: err.message,
+                    }),
+                    { parse_mode: `html` }
+                );
             }
 
             db.users.count({}, (err, users) => {
                 if (err) {
                     console.log(err);
-                    return ctx.repy(`There was an error.`);
+                    return ctx.repy(
+                        createLogMessage({
+                            header: `Error`,
+                            message: err.message,
+                        }),
+                        { parse_mode: `html` }
+                    );
                 }
 
-                ctx.reply(
-                    `I am currently in ${formatNumber(chats)} groups and have globally banned ${formatNumber(users)} users.`
-                );
+                const message = createLogMessage({
+                    header: `Stats`,
+                    chats: formatNumber(chats),
+                    users: formatNumber(users),
+                });
+
+                ctx.reply(message, {
+                    parse_mode: `html`,
+                });
             });
         });
     });

@@ -1,6 +1,7 @@
 const escapeHtml = require(`@youtwitface/escape-html`);
 const parseText = require(`../middleware/parseText`);
 const mention = require(`../middleware/mention`);
+const createLogMessage = require(`../middleware/createLogMessage`);
 
 const { LOG_CHANNEL } = process.env;
 
@@ -11,19 +12,49 @@ module.exports = (bot, db) => {
         const { id, reason } = ctx.text;
 
         if (!id) {
-            return ctx.reply(`That id doesn't seem valid.`);
+            return ctx.reply(
+                createLogMessage({
+                    header: `Error`,
+                    message: `That id doesn't seem valid`,
+                }),
+                { parse_mode: `html` }
+            );
         } else if (db.admins.includes(id)) {
-            return ctx.reply(`I can't ban an admin.`);
+            return ctx.reply(
+                createLogMessage({
+                    header: `Error`,
+                    message: `I can't ban an admin`,
+                }),
+                { parse_mode: `html` }
+            );
         } else if (id === ctx.botInfo.id) {
-            return ctx.reply(`Why would I ban myself?`);
+            return ctx.reply(
+                createLogMessage({
+                    header: `Error`,
+                    message: `Why would I ban myself?`,
+                }),
+                { parse_mode: `html` }
+            );
         }
 
         db.users.findOne({ user_id: id }, (err, user) => {
             if (err) {
                 console.log(err);
-                return ctx.repy(`There was an error.`);
+                return ctx.repy(
+                    createLogMessage({
+                        header: `Error`,
+                        message: err.message,
+                    }),
+                    { parse_mode: `html` }
+                );
             } else if (user) {
-                return ctx.reply(`That user is already banned.`);
+                return ctx.reply(
+                    createLogMessage({
+                        header: `Error`,
+                        message: `That user is already banned`,
+                    }),
+                    { parse_mode: `html` }
+                );
             }
 
             const insertedUser = {
@@ -36,13 +67,25 @@ module.exports = (bot, db) => {
             db.users.insert(insertedUser, err => {
                 if (err) {
                     console.log(err);
-                    return ctx.reply(`There was an error.`);
+                    return ctx.reply(
+                        createLogMessage({
+                            header: `Error`,
+                            message: err.message,
+                        }),
+                        { parse_mode: `html` }
+                    );
                 }
 
                 db.chats.find({}, async (err, chats) => {
                     if (err) {
                         console.log(err);
-                        return ctx.reply(`There was an error.`);
+                        return ctx.reply(
+                            createLogMessage({
+                                header: `Error`,
+                                message: err.message,
+                            }),
+                            { parse_mode: `html` }
+                        );
                     }
 
                     chats.forEach(chat => {
@@ -51,20 +94,33 @@ module.exports = (bot, db) => {
                             .catch(() => {});
                     });
 
-                    ctx.reply(`User has been banned.`);
-
-                    const tgUser = await bot.telegram.getChat(id);
-                    const adminMention = mention(ctx.from, true);
-                    const userMention = mention(tgUser, true);
-                    let logMessage = `<b>Type:</b> Ban\n<b>Admin:</b> ${adminMention}\n<b>User:</b> ${userMention}`;
-
-                    if (reason) {
-                        logMessage += `\n<b>Reason:</b> ${escapeHtml(reason)}`;
+                    let tgUser;
+                    try {
+                        tgUser = await bot.telegram.getChat(id);
+                    } catch (_) {
+                        tgUser = null;
                     }
 
-                    bot.telegram.sendMessage(LOG_CHANNEL, logMessage, {
+                    const message = createLogMessage({
+                        header: `Ban`,
+                        admin: mention(ctx.from, true),
+                        user: tgUser
+                            ? mention(tgUser, true)
+                            : `Unknown User (<code>${id}</code>)`,
+                        reason: reason
+                            ? escapeHtml(reason)
+                            : `<i>No reason specified</i>`,
+                    });
+
+                    ctx.reply(message, {
                         parse_mode: `html`,
                     });
+
+                    if (LOG_CHANNEL != ctx.chat.id) {
+                        bot.telegram.sendMessage(LOG_CHANNEL, message, {
+                            parse_mode: `html`,
+                        });
+                    }
                 });
             });
         });
