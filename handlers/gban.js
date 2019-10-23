@@ -16,24 +16,21 @@ module.exports = (bot, db) => {
                 createLogMessage({
                     header: `Error`,
                     message: `That id doesn't seem valid`,
-                }),
-                { parse_mode: `html` }
+                })
             );
         } else if (db.admins.includes(id)) {
             return ctx.reply(
                 createLogMessage({
                     header: `Error`,
                     message: `I can't ban an admin`,
-                }),
-                { parse_mode: `html` }
+                })
             );
         } else if (id === ctx.botInfo.id) {
             return ctx.reply(
                 createLogMessage({
                     header: `Error`,
                     message: `Why would I ban myself?`,
-                }),
-                { parse_mode: `html` }
+                })
             );
         }
 
@@ -44,16 +41,14 @@ module.exports = (bot, db) => {
                     createLogMessage({
                         header: `Error`,
                         message: err.message,
-                    }),
-                    { parse_mode: `html` }
+                    })
                 );
             } else if (user) {
                 return ctx.reply(
                     createLogMessage({
                         header: `Error`,
                         message: `That user is already banned`,
-                    }),
-                    { parse_mode: `html` }
+                    })
                 );
             }
 
@@ -71,8 +66,7 @@ module.exports = (bot, db) => {
                         createLogMessage({
                             header: `Error`,
                             message: err.message,
-                        }),
-                        { parse_mode: `html` }
+                        })
                     );
                 }
 
@@ -83,8 +77,7 @@ module.exports = (bot, db) => {
                             createLogMessage({
                                 header: `Error`,
                                 message: err.message,
-                            }),
-                            { parse_mode: `html` }
+                            })
                         );
                     }
 
@@ -112,9 +105,7 @@ module.exports = (bot, db) => {
                             : `<i>No reason specified</i>`,
                     });
 
-                    ctx.reply(message, {
-                        parse_mode: `html`,
-                    });
+                    ctx.reply(message);
 
                     if (LOG_CHANNEL != ctx.chat.id) {
                         bot.telegram.sendMessage(LOG_CHANNEL, message, {

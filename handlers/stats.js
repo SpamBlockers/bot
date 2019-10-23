@@ -15,8 +15,7 @@ module.exports = (bot, db) => {
                 createLogMessage({
                     header: `Error`,
                     message: `That id doesn't seem valid`,
-                }),
-                { parse_mode: `html` }
+                })
             );
         }
 
@@ -34,8 +33,7 @@ module.exports = (bot, db) => {
                     createLogMessage({
                         header: `Info`,
                         message: `${id} is not banned`,
-                    }),
-                    { parse_mode: `html` }
+                    })
                 );
             }
 
@@ -66,9 +64,7 @@ module.exports = (bot, db) => {
                     : `<i>No reason specified</i>`,
             });
 
-            ctx.reply(message, {
-                parse_mode: `html`,
-            });
+            ctx.reply(message);
         });
     });
 
@@ -82,8 +78,7 @@ module.exports = (bot, db) => {
                     createLogMessage({
                         header: `Error`,
                         message: err.message,
-                    }),
-                    { parse_mode: `html` }
+                    })
                 );
             }
 
@@ -94,8 +89,7 @@ module.exports = (bot, db) => {
                         createLogMessage({
                             header: `Error`,
                             message: err.message,
-                        }),
-                        { parse_mode: `html` }
+                        })
                     );
                 }
 
@@ -105,9 +99,7 @@ module.exports = (bot, db) => {
                     users: formatNumber(users),
                 });
 
-                ctx.reply(message, {
-                    parse_mode: `html`,
-                });
+                ctx.reply(message);
             });
         });
     });

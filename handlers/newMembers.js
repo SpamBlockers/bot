@@ -37,9 +37,7 @@ module.exports = (bot, db) => {
                         : `<i>No reason specified</i>`,
                 });
 
-                ctx.reply(message, {
-                    parse_mode: `html`,
-                });
+                ctx.reply(message);
             });
         });
     });

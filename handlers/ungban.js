@@ -15,16 +15,14 @@ module.exports = (bot, db) => {
                 createLogMessage({
                     header: `Error`,
                     message: `That id doesn't seem valid`,
-                }),
-                { parse_mode: `html` }
+                })
             );
         } else if (db.admins.includes(id)) {
             return ctx.reply(
                 createLogMessage({
                     header: `Error`,
                     message: `Why would an admin be banned? 🤔`,
-                }),
-                { parse_mode: `html` }
+                })
             );
         }
 
@@ -35,16 +33,14 @@ module.exports = (bot, db) => {
                     createLogMessage({
                         header: `Error`,
                         message: err.message,
-                    }),
-                    { parse_mode: `html` }
+                    })
                 );
             } else if (!user) {
                 return ctx.reply(
                     createLogMessage({
                         header: `Error`,
                         message: `That user isn't banned`,
-                    }),
-                    { parse_mode: `html` }
+                    })
                 );
             }
 
@@ -55,8 +51,7 @@ module.exports = (bot, db) => {
                         createLogMessage({
                             header: `Error`,
                             message: err.message,
-                        }),
-                        { parse_mode: `html` }
+                        })
                     );
                 }
 
@@ -67,8 +62,7 @@ module.exports = (bot, db) => {
                             createLogMessage({
                                 header: `Error`,
                                 message: err.message,
-                            }),
-                            { parse_mode: `html` }
+                            })
                         );
                     }
 
@@ -93,9 +87,7 @@ module.exports = (bot, db) => {
                             : `Unknown User (<code>${id}</code>)`,
                     });
 
-                    ctx.reply(message, {
-                        parse_mode: `html`,
-                    });
+                    ctx.reply(message);
 
                     if (LOG_CHANNEL != ctx.chat.id) {
                         bot.telegram.sendMessage(LOG_CHANNEL, message, {

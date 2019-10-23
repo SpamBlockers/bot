@@ -37,6 +37,15 @@ const db = {
     admins: require(`./admins.json`).map(admin => Number(admin)),
 };
 
+bot.context.reply = function(text, extra = {}) {
+    this.assert(this.chat, `reply`);
+
+    return this.telegram.sendMessage(this.chat.id, text, {
+        parse_mode: `html`,
+        ...extra,
+    });
+};
+
 require(`./handlers`)(bot, db);
 
 bot.launch().then(() => {
