@@ -56,7 +56,6 @@ module.exports = (bot, db) => {
                 user_id: id,
                 banned_by: ctx.from.id,
                 reason,
-                banned_at: new Date(),
             };
 
             db.users.insert(insertedUser, err => {

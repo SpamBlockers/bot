@@ -22,6 +22,7 @@ const db = {
     }),
     users: new NeDB({
         filename: path.join(__dirname, `stores/users.db`),
+        timestampData: true,
         autoload: true,
         onload: err => {
             if (err) throw err;
