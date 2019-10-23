@@ -1,5 +1,6 @@
 const parseText = require(`../middleware/parseText`);
 const mention = require(`../middleware/mention`);
+const getUserMention = require(`../middleware/getUserMention`);
 const createLogMessage = require(`../middleware/createLogMessage`);
 
 const { LOG_CHANNEL } = process.env;
@@ -72,19 +73,10 @@ module.exports = (bot, db) => {
                             .catch(() => {});
                     });
 
-                    let tgUser;
-                    try {
-                        tgUser = await bot.telegram.getChat(id);
-                    } catch (_) {
-                        tgUser = null;
-                    }
-
                     const message = createLogMessage({
                         header: `Unban`,
                         admin: mention(ctx.from, true),
-                        user: tgUser
-                            ? mention(tgUser, true)
-                            : `Unknown User (<code>${id}</code>)`,
+                        user: await getUserMention(id, true),
                     });
 
                     ctx.reply(message);

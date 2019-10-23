@@ -1,6 +1,7 @@
 const escapeHtml = require(`@youtwitface/escape-html`);
 const parseText = require(`../middleware/parseText`);
 const mention = require(`../middleware/mention`);
+const getUserMention = require(`../middleware/getUserMention`);
 const createLogMessage = require(`../middleware/createLogMessage`);
 
 const { LOG_CHANNEL } = process.env;
@@ -65,19 +66,10 @@ module.exports = (bot, db) => {
                             );
                         }
 
-                        let tgUser;
-                        try {
-                            tgUser = await bot.telegram.getChat(id);
-                        } catch (_) {
-                            tgUser = null;
-                        }
-
                         const message = createLogMessage({
                             header: `Reason Update`,
                             admin: mention(ctx.from, true),
-                            user: tgUser
-                                ? mention(tgUser, true)
-                                : `Unknown User (<code>${id}</code>)`,
+                            user: await getUserMention(bot, id, true),
                             oldReason: user.reason
                                 ? escapeHtml(user.reason)
                                 : `<i>No reason specified</i>`,
@@ -125,19 +117,10 @@ module.exports = (bot, db) => {
                             .catch(() => {});
                     });
 
-                    let tgUser;
-                    try {
-                        tgUser = await bot.telegram.getChat(id);
-                    } catch (_) {
-                        tgUser = null;
-                    }
-
                     const message = createLogMessage({
                         header: `Ban`,
                         admin: mention(ctx.from, true),
-                        user: tgUser
-                            ? mention(tgUser, true)
-                            : `Unknown User (<code>${id}</code>)`,
+                        user: await getUserMention(bot, id, true),
                         reason: reason
                             ? escapeHtml(reason)
                             : `<i>No reason specified</i>`,

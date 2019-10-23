@@ -1,6 +1,6 @@
 const escapeHtml = require(`@youtwitface/escape-html`);
 const parseText = require(`../middleware/parseText`);
-const mention = require(`../middleware/mention`);
+const getUserMention = require(`../middleware/getUserMention`);
 const createLogMessage = require(`../middleware/createLogMessage`);
 
 const formatNumber = number =>
@@ -37,28 +37,10 @@ module.exports = (bot, db) => {
                 );
             }
 
-            let tgAdmin;
-            try {
-                tgAdmin = await bot.telegram.getChat(user.banned_by);
-            } catch (_) {
-                tgAdmin = null;
-            }
-
-            let tgUser;
-            try {
-                tgUser = await bot.telegram.getChat(id);
-            } catch (_) {
-                tgUser = null;
-            }
-
             const message = createLogMessage({
                 header: `Ban`,
-                admin: tgAdmin
-                    ? mention(tgAdmin, true)
-                    : `Unknown Admin (<code>${user.banned_by}</code>)`,
-                user: tgUser
-                    ? mention(tgUser, true)
-                    : `Unknown User (<code>${id}</code>)`,
+                admin: await getUserMention(bot, user.banned_by, true),
+                user: await getUserMention(bot, id, true),
                 reason: user.reason
                     ? escapeHtml(user.reason)
                     : `<i>No reason specified</i>`,
