@@ -51,6 +51,15 @@ module.exports = (bot, db) => {
                     })
                 );
             } else if (user) {
+                if (reason === user.reason) {
+                    return ctx.reply(
+                        createLogMessage({
+                            header: `Error`,
+                            message: `That user is already banned with the same reason`,
+                        })
+                    );
+                }
+
                 return db.users.update(
                     { user_id: id },
                     { $set: { reason } },
