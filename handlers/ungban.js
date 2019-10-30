@@ -76,7 +76,7 @@ module.exports = (bot, db) => {
                     const message = createLogMessage({
                         header: `Unban`,
                         admin: mention(ctx.from, true),
-                        user: await getUserMention(id, true),
+                        user: await getUserMention(bot, id, true),
                     });
 
                     ctx.reply(message);
