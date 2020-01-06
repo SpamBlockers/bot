@@ -50,7 +50,7 @@ module.exports = (bot, db) => {
         });
     });
 
-    bot.command(`stats`, async ctx => {
+    bot.command(`stats`, ctx => {
         if (!db.admins.includes(ctx.from.id)) return;
 
         db.chats.count({}, (err, chats) => {
