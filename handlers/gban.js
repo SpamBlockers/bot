@@ -62,7 +62,7 @@ module.exports = (bot, db) => {
 
                 return db.users.update(
                     { user_id: id },
-                    { $set: { reason } },
+                    { $set: insertedUser },
                     {},
                     async err => {
                         if (err) {
