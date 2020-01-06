@@ -5,6 +5,8 @@ module.exports = (bot, db) => {
     const removeChat = promisify(db.chats.remove.bind(db.chats));
 
     bot.command(`clean`, ctx => {
+        if (!db.admins.includes(ctx.from.id)) return;
+
         db.chats.find({}, async (err, chats) => {
             if (err) {
                 console.log(err);
