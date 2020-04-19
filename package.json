@@ -11,7 +11,7 @@
     "dependencies": {
         "@youtwitface/escape-html": "^1.0.0",
         "dotenv": "^8.0.0",
-        "nedb": "^1.8.0",
+        "mongoose": "^5.9.9",
         "telegraf": "^3.30.1"
     },
     "devDependencies": {

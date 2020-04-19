@@ -1,24 +1,23 @@
+const Chat = require(`../models/chat`);
+const User = require(`../models/user`);
 const escapeHtml = require(`@youtwitface/escape-html`);
-const mention = require(`../middleware/mention`);
-const getUserMention = require(`../middleware/getUserMention`);
 const createLogMessage = require(`../middleware/createLogMessage`);
+const getUserMention = require(`../middleware/getUserMention`);
+const mention = require(`../middleware/mention`);
 
-module.exports = (bot, db) => {
+module.exports = bot => {
     bot.on(`new_chat_members`, ctx => {
         const { chat, new_chat_members: members } = ctx.message;
 
-        members.forEach(member => {
+        members.forEach(async member => {
             if (member.id === ctx.botInfo.id) {
-                return db.chats.insert({ chat_id: chat.id }, err => {
-                    if (err) console.log(err);
-                });
+                return await new Chat({ chat_id: chat.id }).save();
             }
 
-            db.users.findOne({ user_id: member.id }, async (err, user) => {
-                if (err) return console.log(err);
-                else if (!user) return;
+            const user = await User.findOne({ user_id: member.id });
 
-                ctx.kickChatMember(member.id).catch(() => {});
+            if (user) {
+                ctx.kickChatMember(member.id).catch(() => { });
 
                 const message = createLogMessage({
                     header: `Ban`,
@@ -30,7 +29,7 @@ module.exports = (bot, db) => {
                 });
 
                 ctx.reply(message);
-            });
+            }
         });
     });
 };

@@ -1,43 +1,28 @@
+const Chat = require(`../models/chat`);
+const User = require(`../models/user`);
+const admins = require(`../admins.json`);
 const escapeHtml = require(`@youtwitface/escape-html`);
-const parseText = require(`../middleware/parseText`);
-const getUserMention = require(`../middleware/getUserMention`);
+const asyncHandler = require(`../middleware/asyncHandler`);
 const createLogMessage = require(`../middleware/createLogMessage`);
+const getUserMention = require(`../middleware/getUserMention`);
+const parseText = require(`../middleware/parseText`);
 
 const formatNumber = number =>
     number.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, `$1,`);
 
-module.exports = (bot, db) => {
-    bot.command(`stat`, parseText, ctx => {
+module.exports = bot => {
+    bot.command(`stat`, parseText, asyncHandler(async ctx => {
         const { id } = ctx.text;
 
         if (!id) {
-            return ctx.reply(
-                createLogMessage({
-                    header: `Error`,
-                    message: `That id doesn't seem valid`,
-                })
-            );
+            throw new Error(`That id doesn't seem valid`);
         }
 
-        db.users.findOne({ user_id: id }, async (err, user) => {
-            if (err) {
-                console.log(err);
-                return ctx.repy(
-                    createLogMessage({
-                        header: `Error`,
-                        message: err.message,
-                    })
-                );
-            } else if (!user) {
-                return ctx.reply(
-                    createLogMessage({
-                        header: `Info`,
-                        message: `${id} is not banned`,
-                    })
-                );
-            }
+        const user = await User.findOne({ user_id: id });
+        let message;
 
-            const message = createLogMessage({
+        if (user) {
+            message = createLogMessage({
                 header: `Ban`,
                 admin: await getUserMention(bot, user.banned_by, true),
                 user: await getUserMention(bot, id, true),
@@ -45,44 +30,30 @@ module.exports = (bot, db) => {
                     ? escapeHtml(user.reason)
                     : `<i>No reason specified</i>`,
             });
-
-            ctx.reply(message);
-        });
-    });
-
-    bot.command(`stats`, ctx => {
-        if (!db.admins.includes(ctx.from.id)) return;
-
-        db.chats.count({}, (err, chats) => {
-            if (err) {
-                console.log(err);
-                return ctx.repy(
-                    createLogMessage({
-                        header: `Error`,
-                        message: err.message,
-                    })
-                );
-            }
-
-            db.users.count({}, (err, users) => {
-                if (err) {
-                    console.log(err);
-                    return ctx.repy(
-                        createLogMessage({
-                            header: `Error`,
-                            message: err.message,
-                        })
-                    );
-                }
-
-                const message = createLogMessage({
-                    header: `Stats`,
-                    chats: formatNumber(chats),
-                    users: formatNumber(users),
-                });
-
-                ctx.reply(message);
+        } else {
+            message = createLogMessage({
+                header: `Info`,
+                message: `${id} is not banned`,
             });
+        }
+
+        ctx.reply(message);
+    }));
+
+    bot.command(`stats`, asyncHandler(async ctx => {
+        if (!admins.includes(ctx.from.id)) return;
+
+        const [chats, users] = await Promise.all([
+            Chat.countDocuments(),
+            User.countDocuments(),
+        ]);
+
+        const message = createLogMessage({
+            header: `Stats`,
+            chats: formatNumber(chats),
+            users: formatNumber(users),
         });
-    });
+
+        ctx.reply(message);
+    }));
 };
