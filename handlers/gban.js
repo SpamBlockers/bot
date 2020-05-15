@@ -14,7 +14,7 @@ module.exports = bot => {
     bot.command(`gban`, parseText, asyncHandler(async ctx => {
         if (!admins.includes(ctx.from.id)) return;
 
-        const { id, reason } = ctx.text;
+        const { forwardId: id, reason } = ctx.text;
 
         if (!id) {
             throw new Error(`That id doesn't seem valid`);

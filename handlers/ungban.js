@@ -13,7 +13,7 @@ module.exports = bot => {
     bot.command(`ungban`, parseText, asyncHandler(async ctx => {
         if (!admins.includes(ctx.from.id)) return;
 
-        const { id } = ctx.text;
+        const { forwardId: id } = ctx.text;
 
         if (!id) {
             throw new Error(`That id doesn't seem valid`);

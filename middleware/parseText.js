@@ -1,3 +1,5 @@
+const admins = require(`../admins.json`);
+
 const TEXT_REGEX = /^(?:(?:#id)?(\d+)+)?([\s\S]+)?$/;
 
 module.exports = (ctx, next) => {
@@ -5,13 +7,21 @@ module.exports = (ctx, next) => {
 
     const parsedText = text.slice(entities[0].length);
     let [, id, reason] = parsedText.trim().match(TEXT_REGEX) || [];
+    let forwardId = id;
 
     if (!id && reply && reply.from) {
         id = reply.from.id;
+
+        const { forward_from: forwardFrom } = reply;
+        if (forwardFrom && admins.includes(id)) {
+            forwardId = forwardFrom.id;
+        }
     }
 
+    id = Number(id) || null;
     ctx.text = {
-        id: Number(id) || null,
+        id,
+        forwardId: forwardId || id,
         reason: reason ? reason.trim() : null,
     };
 

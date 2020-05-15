@@ -12,7 +12,7 @@ const formatNumber = number =>
 
 module.exports = bot => {
     bot.command(`stat`, parseText, asyncHandler(async ctx => {
-        const { id } = ctx.text;
+        const { forwardId: id } = ctx.text;
 
         if (!id) {
             throw new Error(`That id doesn't seem valid`);
