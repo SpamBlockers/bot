@@ -37,8 +37,8 @@ ensuring that you don't lose control to your gbanlist.
 | ----- | ----- | ----- |
 | `/start` | _Everyone_ | Checks if the bot is dead. |
 | `/help` | _Everyone_ | This command doesn't exists. |
-| `/gban <userid|username|reply> <reason>`  | _Admins_ | Globally bans a user with a valid reason. |
-| `/ungban <userid|username|reply> <reason>`| _Admins_ | Globally unbans a user. |
+| `/gban <userid/username/reply> <reason>`  | _Admins_ | Globally bans a user with a valid reason. |
+| `/ungban <userid/username/reply> <reason>`| _Admins_ | Globally unbans a user. |
 | `/stats` | _Admins_ | Pull global stats from bot database. |
 | `/clean` | _Admins_ | Cleans up the clutter collected from database.
 | `/newMembers` | _Admins_ | Checks and pulls new members from database. |
