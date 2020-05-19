@@ -28,7 +28,7 @@
 }
 ```
 > :warning: **Make sure your user ID is included in `admins.json`!** While there's no
-way to add yourself as a operator in the `admins.json`, its required to ad yourself to the list,
+way to add yourself as a operator in the `admins.json`, its required to add yourself to the list,
 ensuring that you don't lose control to your gbanlist.
 4. Finally, fire up the console and type `npm start` to hit the road.
 
@@ -37,8 +37,8 @@ ensuring that you don't lose control to your gbanlist.
 | ----- | ----- | ----- |
 | `/start` | _Everyone_ | Checks if the bot is dead. |
 | `/help` | _Everyone_ | This command doesn't exists. |
-| `/gban <userid/username/reply> <reason>`  | _Admins_ | Globally bans a user with a valid reason. |
-| `/ungban <userid/username/reply> <reason>`| _Admins_ | Globally unbans a user. |
+| `/stat <userid/reply>` | _Everyone_ | Pull stats for a user from bot database. |
+| `/gban <userid/reply> <reason>`  | _Admins_ | Globally bans a user with a valid reason. |
+| `/ungban <userid/reply> <reason>`| _Admins_ | Globally unbans a user. |
 | `/stats` | _Admins_ | Pull global stats from bot database. |
-| `/clean` | _Admins_ | Cleans up the clutter collected from database.
-| `/newMembers` | _Admins_ | Checks and pulls new members from database. |
+| `/clean` | _Admins_ | Cleans up the clutter collected from database. |
