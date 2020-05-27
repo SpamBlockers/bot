@@ -12,6 +12,11 @@
 3. Make a `admins.json` file with an array of Telegram user IDs of admins you want to use admin-only commands.
 4. Finally, fire up the console and type `npm start` to hit the road.
 
+### Development in Gitpod
+[Click here to start a new dev env in Gitpod](https://gitpod.io/#github.com/YouTwitFace/SpamBlockerBot) or [here (not recommended)]
+
+[here (not recommended)]: https://gitpod.io/#github.com/AndreiJirohHaliliDev2006/SpamBlockersBot
+
 ## Commands Reference
 | Command | Permissions | Description |
 | ----- | ----- | ----- |
