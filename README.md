@@ -16,7 +16,7 @@
 
 ### Development in Gitpod
 
-[Click here to start a new dev env in Gitpod](https://gitpod.io/#github.com/YouTwitFace/SpamBlockerBot) or [here (not recommended)]
+[Click here to start a new dev env in Gitpod](https://gitpod.io/#github.com/YouTwitFace/SpamBlockerBot)
 
 [here (not recommended)]: https://gitpod.io/#github.com/AndreiJirohHaliliDev2006/SpamBlockersBot
 
@@ -33,4 +33,4 @@
 
 ## Documentation
 
-<https://docs-spamblockersbot.lungers.com> (soon) / [See also the source for the docs site](https://gitlab.com/AndreiJirohHaliliDev2006/SpamBlockersBot-Docs)
+<https://docs.spamblockers.bot> (soon)
