@@ -23,6 +23,8 @@ const bot = new Telegraf(process.env.BOT_TOKEN);
     };
 
     require(`./handlers`)(bot);
+    
+    require(`./server`);
 
     bot.launch().then(() => {
         console.log(`@${bot.context.botInfo.username} is running...`);
