@@ -33,4 +33,4 @@
 
 ## Documentation
 
-<https://docs-spamblockersbot.lungers.com> (soon) / [See also the source for the docs site](https://gitlab.com/AndreiJirohHaliliDev2006/SpamBlockersBot-Docs)
+<https://docs.spamblockers.bot> (soon)
