@@ -14,6 +14,9 @@ const apiTokenSchema = new mongoose.Schema(
         isRevoked: {
             type: Boolean,
         },
+        hasSudoRights: {
+            type: Boolean,
+        },
     },
     { timestamps: true },
 );
