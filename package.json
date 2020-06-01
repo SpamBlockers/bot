@@ -8,6 +8,10 @@
         "lint-fix": "eslint . --fix",
         "dev": "NODE_ENV=development nodemon index.js"
     },
+    "repository": {
+        "type" : "git",
+        "url" : "github:AndrewLaneX/SpamBlockersBot.git"
+      },
     "author": "YouTwitFace <contact@lungers.com>",
     "license": "GPL-3.0",
     "dependencies": {
