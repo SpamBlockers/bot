@@ -6,7 +6,7 @@
         "start": "node index.js",
         "lint": "eslint .",
         "lint-fix": "eslint . --fix",
-        "dev": "NODE_ENV=development nodemon index.js"
+        "dev": "nodemon index.js"
     },
     "repository": {
         "type" : "git",

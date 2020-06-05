@@ -11,15 +11,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN);
         useCreateIndex: true,
     });
 
-    // Check for DB connection and exits if not successfully connected.
-    var db = mongoose.connection;
-    if (!db) {
-        console.log(`Successfully connected to MongoDB`);
-    } else {
-        console.error(`Check your MONGO_URI environment variable if still working.`);
-        console.error(`Also check your DB login info if still working`);
-        process.exit(1);
-    }
+    console.log(`Successfully connected to MongoDB`);
 
     bot.context.reply = function (text, extra = {}) {
         this.assert(this.chat, `reply`);
