@@ -10,3 +10,8 @@ ports:
 tasks:
   - init: npm install
     command: npm start
+
+# List the VS Code extensions we can use.
+vscode:
+  extensions:
+    - dbaeumer.vscode-eslint@2.1.3:1NRvj3UKNTNwmYjptmUmIw==
