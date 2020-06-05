@@ -11,14 +11,18 @@ const apiTokenSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
-        isRevoked: {
-            type: Boolean,
-        },
+        isRevoked: Boolean,
         hasSudoRights: {
             type: Boolean,
+            // Unless userId is included in admins.json
+            // When removed from that file, it should change it to 'false'.
+            default: false,
+        },
+        tokenGeneratedDate: {
+            type: Date,
+            default: Date.now,
         },
     },
-    { timestamps: true },
 );
 
 const ApiToken = mongoose.model(`ApiToken`, apiTokenSchema);
