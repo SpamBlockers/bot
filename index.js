@@ -1,3 +1,4 @@
+// Pull secrets from .env file
 require(`dotenv`).config();
 
 const mongoose = require(`mongoose`);
@@ -13,6 +14,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN);
 
     console.log(`Successfully connected to MongoDB`);
 
+
     bot.context.reply = function (text, extra = {}) {
         this.assert(this.chat, `reply`);
 
@@ -23,8 +25,6 @@ const bot = new Telegraf(process.env.BOT_TOKEN);
     };
 
     require(`./handlers`)(bot);
-    
-    require(`./server`);
 
     bot.launch().then(() => {
         console.log(`@${bot.context.botInfo.username} is running...`);
