@@ -16,9 +16,8 @@
 
 ### Development in Gitpod
 
-[Click here to start a new dev env in Gitpod](https://gitpod.io/#github.com/YouTwitFace/SpamBlockerBot)
-
-[here (not recommended)]: https://gitpod.io/#github.com/AndreiJirohHaliliDev2006/SpamBlockersBot
+[Click here to start a new dev env in Gitpod](https://gitpod.io/#github.com/YouTwitFace/SpamBlockerBot). After spinning up an new workspace,
+feel free to hack around the code.
 
 ## Commands Reference
 
