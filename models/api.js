@@ -2,6 +2,11 @@ const mongoose = require(`mongoose`);
 
 const apiTokenSchema = new mongoose.Schema(
     {
+        token_id: {
+            type: Number,
+            unique: true,
+            required: true,
+        },
         user_id: {
             type: Number,
             required: true,
@@ -14,8 +19,7 @@ const apiTokenSchema = new mongoose.Schema(
         isRevoked: Boolean,
         hasSudoRights: {
             type: Boolean,
-            // Unless userId is included in admins.json
-            // When removed from that file, it should change it to 'false'.
+            // When granted admin rights, revoke your current key and creat a new one.
             default: false,
         },
         tokenGeneratedDate: {
