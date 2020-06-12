@@ -20,6 +20,8 @@ module.exports = bot => {
             throw new Error(`That id doesn't seem valid`);
         } else if (admins.includes(id)) {
             throw new Error(`I can't ban an admin`);
+        } else if (id === 777000) {
+            throw new Error(`Why you want to ban Telegram?`);
         } else if (id === ctx.botInfo.id) {
             throw new Error(`Why would I ban myself?`);
         }
