@@ -28,8 +28,8 @@ feel free to hack around the code.
 | `/gban <userid/reply> <reason>` | _Blacklists_  | _Admins_ | Globally bans a user with a valid reason. |
 | `/ungban <userid/reply> <reason>`| _Blacklists_ | _Admins_ | Globally unbans a user. |
 | `/stats` | _Database Stats_ | _Admins_ | Pull global stats from bot database. |
-| `/generate_token` | _API Access_ | _Everyone_ | Generates a new token. Only one token can be generated and active at a time. |
-| `/revoke_token` | _API Access_ | _Everyone_
+| `/generate_token` | _API Access_ | _Everyone_ | Generates a new token. It'll give you some random string as TokenID, just in case you want to revoke it someday. |
+| `/revoke_token <token_id>` | _API Access_ | _Everyone_ | Revokes your token, as referenced by your `<token_id>`.
 | `/help` or `/docs` | _Documentation_ | _Everyone_ | Read some help and some support links on using the bot. |
 | `/stat <userid/reply>` | _Blacklists / Database Stats_ | _Everyone_ | Pull stats for a user from bot database. |
 | `/start` | _Uptime Status_ | _Everyone_ | Checks if the bot is dead. |
